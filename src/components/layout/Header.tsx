@@ -10,7 +10,7 @@ const Header = () => {
   const [loginModalOpen, setLoginModalOpen] = useState(false);
 
   const services = [
-    { name: 'Trademark Registration', path: '/services/trademark' },
+    { name: 'Trademark Registration', path: '/trademark-registration' },
     { name: 'Company Registration', path: '/services/company' },
     { name: 'GST Registration', path: '/services/gst' },
     { name: 'Legal Drafting', path: '/services/legal-drafting' },
