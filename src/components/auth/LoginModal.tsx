@@ -9,9 +9,10 @@ import { toast } from 'sonner';
 interface LoginModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onLoginSuccess?: () => void;
 }
 
-const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
+const LoginModal = ({ isOpen, onClose, onLoginSuccess }: LoginModalProps) => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -37,6 +38,10 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
         toast.success('Account created successfully!');
       }
       onClose();
+      // Call the onLoginSuccess callback if provided
+      if (onLoginSuccess) {
+        onLoginSuccess();
+      }
     } catch (error) {
       console.error('Authentication error:', error);
       toast.error('Authentication failed. Please try again.');

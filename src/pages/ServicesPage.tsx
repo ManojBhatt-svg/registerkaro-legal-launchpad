@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Check } from 'lucide-react';
 import Header from '@/components/layout/Header';
@@ -458,9 +458,18 @@ const serviceDetails = {
 const ServicesPage = () => {
   const { serviceId = 'trademark' } = useParams<{ serviceId: string }>();
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const navigate = useNavigate();
   
   // Default to trademark if service is not found
   const service = serviceDetails[serviceId as keyof typeof serviceDetails] || serviceDetails.trademark;
+
+  // Handle login success for trademark registration flow
+  const handleLoginSuccess = () => {
+    setShowLoginModal(false);
+    if (serviceId === 'trademark') {
+      navigate('/trademark-registration');
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -655,7 +664,7 @@ const ServicesPage = () => {
       </main>
       <Footer />
       <ChatAssistant />
-      <LoginModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
+      <LoginModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} onLoginSuccess={handleLoginSuccess} />
     </div>
   );
 };

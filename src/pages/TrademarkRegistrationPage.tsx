@@ -8,6 +8,8 @@ import PackageSelection from '@/components/trademark/PackageSelection';
 import PaymentPage from '@/components/trademark/PaymentPage';
 import UserDashboard from '@/components/dashboard/UserDashboard';
 import ChatAssistant from '@/components/chat/ChatAssistant';
+import { ArrowLeft } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 type RegistrationStep = 'checker' | 'onboarding' | 'packages' | 'payment' | 'dashboard';
 
@@ -17,7 +19,8 @@ const TrademarkRegistrationPage = () => {
     name: '',
     available: false,
     onboardingData: {},
-    selectedPackage: ''
+    selectedPackage: '',
+    additionalServices: [] as string[]
   });
   
   const handleTrademarkCheckComplete = (result: { available: boolean, name: string }) => {
@@ -48,8 +51,23 @@ const TrademarkRegistrationPage = () => {
     setCurrentStep('payment');
   };
   
-  const handlePaymentComplete = () => {
+  const handlePaymentComplete = (additionalServices: string[] = []) => {
+    setTrademarkData({
+      ...trademarkData,
+      additionalServices
+    });
     setCurrentStep('dashboard');
+  };
+
+  const getStepNumber = () => {
+    switch (currentStep) {
+      case 'checker': return 1;
+      case 'onboarding': return 2;
+      case 'packages': return 3;
+      case 'payment': return 4;
+      case 'dashboard': return 5;
+      default: return 1;
+    }
   };
 
   return (
@@ -57,6 +75,46 @@ const TrademarkRegistrationPage = () => {
       <Header />
       <main className="flex-grow bg-gray-50 py-10">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Progress indicator */}
+          {currentStep !== 'dashboard' && (
+            <div className="mb-8">
+              <div className="flex items-center justify-between max-w-2xl mx-auto mb-2">
+                <div className="flex items-center">
+                  {currentStep !== 'checker' && (
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="mr-2"
+                      onClick={() => {
+                        if (currentStep === 'onboarding') setCurrentStep('checker');
+                        if (currentStep === 'packages') setCurrentStep('onboarding');
+                        if (currentStep === 'payment') setCurrentStep('packages');
+                      }}
+                    >
+                      <ArrowLeft className="h-4 w-4 mr-1" />
+                      Back
+                    </Button>
+                  )}
+                  <h2 className="text-xl font-semibold">
+                    Step {getStepNumber()} of 5
+                  </h2>
+                </div>
+                <p className="text-sm text-gray-500">
+                  {currentStep === 'checker' && 'Check Trademark Availability'}
+                  {currentStep === 'onboarding' && 'Answer Questions'}
+                  {currentStep === 'packages' && 'Select Package'}
+                  {currentStep === 'payment' && 'Complete Payment'}
+                </p>
+              </div>
+              <div className="h-2 bg-gray-200 rounded-full max-w-2xl mx-auto">
+                <div 
+                  className="h-full bg-brand-orange rounded-full transition-all duration-300" 
+                  style={{ width: `${(getStepNumber() / 5) * 100}%` }}
+                ></div>
+              </div>
+            </div>
+          )}
+
           {currentStep === 'checker' && (
             <>
               <div className="text-center mb-10">
@@ -115,7 +173,10 @@ const TrademarkRegistrationPage = () => {
           )}
           
           {currentStep === 'dashboard' && (
-            <UserDashboard userName="Jane Doe" />
+            <UserDashboard 
+              userName="Jane Doe" 
+              trademarkData={trademarkData}
+            />
           )}
         </div>
       </main>
