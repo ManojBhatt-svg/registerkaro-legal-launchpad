@@ -31,7 +31,7 @@ const UserDashboard = ({ userName = 'John Doe' }: UserDashboardProps) => {
       id: '1',
       name: 'TechNova',
       type: 'Trademark',
-      status: 'pending',
+      status: 'pending' as const,
       dateUpdated: '2023-12-10',
       documents: [
         { name: 'ID Proof', status: 'verified' },
@@ -47,7 +47,7 @@ const UserDashboard = ({ userName = 'John Doe' }: UserDashboardProps) => {
       id: '2',
       name: 'EcoFresh',
       type: 'Trademark',
-      status: 'in_progress',
+      status: 'in_progress' as const,
       dateUpdated: '2023-11-20',
       documents: [
         { name: 'ID Proof', status: 'verified' },
@@ -62,7 +62,7 @@ const UserDashboard = ({ userName = 'John Doe' }: UserDashboardProps) => {
       id: '3',
       name: 'CloudServe Solutions',
       type: 'Company Registration',
-      status: 'completed',
+      status: 'completed' as const,
       dateUpdated: '2023-10-05',
       documents: [
         { name: 'Director ID Proof', status: 'verified' },
