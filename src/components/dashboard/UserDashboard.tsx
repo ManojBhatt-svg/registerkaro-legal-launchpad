@@ -25,9 +25,9 @@ const UserDashboard = ({ userName, trademarkData }: UserDashboardProps) => {
       id: 'tm-1',
       name: trademarkData?.name || 'Brand Name',
       type: 'Trademark Registration',
-      status: 'in_progress', // Changed to match the expected enum values
-      dateUpdated: '2023-08-18', // Added required dateUpdated property
-      documents: [ // Added required documents property
+      status: 'in_progress' as const, // Using as const to ensure it's the literal type
+      dateUpdated: '2023-08-18',
+      documents: [
         { name: 'Proof of Identity', status: 'pending' },
         { name: 'Proof of Business', status: 'pending' },
         { name: 'Logo File (High Resolution)', status: 'missing' }
@@ -47,9 +47,9 @@ const UserDashboard = ({ userName, trademarkData }: UserDashboardProps) => {
       id: `tm-${Math.random().toString(36).substr(2, 9)}`,
       name: trademarkData.name,
       type: 'Trademark Registration',
-      status: 'pending', // Changed to match the expected enum values
-      dateUpdated: new Date().toISOString().split('T')[0], // Added required dateUpdated property
-      documents: [ // Added required documents property
+      status: 'pending' as const, // Using as const to ensure it's the literal type
+      dateUpdated: new Date().toISOString().split('T')[0],
+      documents: [
         { name: 'Proof of Identity', status: 'missing' },
         { name: 'Proof of Business', status: 'missing' },
         { name: 'Logo File (High Resolution)', status: 'missing' }
