@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -17,40 +16,12 @@ const TrademarkChecker = ({ onCheckComplete }: TrademarkCheckerProps) => {
     checked: false 
   });
   
-  const checkTrademarkApi = async (companyName: string) => {
-    const apiUrl = 'http://192.168.21.34:5000/api/check-trademark';
-    const requestBody = {
-      company_name: companyName,
-      async: false,
-    };
+  const checkTrademarkAvailability = async (name: string): Promise<{ available: boolean }> => {
+    await new Promise(resolve => setTimeout(resolve, 1000));
     
-    try {
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody),
-      });
-      
-      if (!response.ok) {
-        let errorData;
-        try {
-          errorData = await response.json();
-        } catch (parseError) {
-          console.error('Failed to parse error response:', parseError);
-        }
-        throw new Error(
-          `HTTP error! Status: ${response.status}. ${errorData?.error || ''}`.trim()
-        );
-      }
-      
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('API Request Failed:', error);
-      throw error;
-    }
+    const isAvailable = !name.toLowerCase().includes('taken');
+    
+    return { available: isAvailable };
   };
   
   const handleCheck = async () => {
@@ -62,11 +33,9 @@ const TrademarkChecker = ({ onCheckComplete }: TrademarkCheckerProps) => {
     setIsChecking(true);
     
     try {
-      const apiResponse = await checkTrademarkApi(trademarkName);
+      const result = await checkTrademarkAvailability(trademarkName);
       
-      // Assuming the API returns a structure with an 'available' property
-      // Adjust according to your actual API response structure
-      const isAvailable = apiResponse.available || false;
+      const isAvailable = result.available;
       
       setResult({ 
         available: isAvailable, 
@@ -75,7 +44,6 @@ const TrademarkChecker = ({ onCheckComplete }: TrademarkCheckerProps) => {
       
       onCheckComplete({ available: isAvailable, name: trademarkName });
       
-      // Show appropriate toast based on result
       if (isAvailable) {
         toast.success(`"${trademarkName}" appears to be available for registration.`);
       } else {
@@ -85,7 +53,6 @@ const TrademarkChecker = ({ onCheckComplete }: TrademarkCheckerProps) => {
       console.error('Trademark check failed:', error);
       toast.error(`Failed to check trademark: ${error instanceof Error ? error.message : 'Unknown error'}`);
       
-      // Set result as not available in case of error
       setResult({ 
         available: false, 
         checked: true 
