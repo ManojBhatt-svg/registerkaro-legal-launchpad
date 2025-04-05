@@ -17,7 +17,7 @@ import {
   Settings,
   LogOut,
 } from 'lucide-react';
-import ApplicationCard from './ApplicationCard';
+import ApplicationCard, { Application } from './ApplicationCard';
 
 interface UserDashboardProps {
   userName: string;
@@ -26,7 +26,7 @@ interface UserDashboardProps {
 const UserDashboard = ({ userName = 'John Doe' }: UserDashboardProps) => {
   const [activeTab, setActiveTab] = useState('applications');
   
-  const applications = [
+  const applications: Application[] = [
     {
       id: '1',
       name: 'TechNova',
@@ -34,13 +34,13 @@ const UserDashboard = ({ userName = 'John Doe' }: UserDashboardProps) => {
       status: 'pending' as const,
       dateUpdated: '2023-12-10',
       documents: [
-        { name: 'ID Proof', status: 'verified' },
-        { name: 'Business Proof', status: 'pending' },
-        { name: 'Authorization Letter', status: 'missing' }
+        { name: 'ID Proof', status: 'verified' as const },
+        { name: 'Business Proof', status: 'pending' as const },
+        { name: 'Authorization Letter', status: 'missing' as const }
       ],
       payments: [
-        { amount: 12999, date: '2023-12-01', description: 'Initial Payment', status: 'paid' },
-        { amount: 4500, date: '2024-02-15', description: 'Government Fee', status: 'pending' }
+        { amount: 12999, date: '2023-12-01', description: 'Initial Payment', status: 'paid' as const },
+        { amount: 4500, date: '2024-02-15', description: 'Government Fee', status: 'pending' as const }
       ]
     },
     {
@@ -50,12 +50,12 @@ const UserDashboard = ({ userName = 'John Doe' }: UserDashboardProps) => {
       status: 'in_progress' as const,
       dateUpdated: '2023-11-20',
       documents: [
-        { name: 'ID Proof', status: 'verified' },
-        { name: 'Business Proof', status: 'verified' },
-        { name: 'Logo File', status: 'verified' }
+        { name: 'ID Proof', status: 'verified' as const },
+        { name: 'Business Proof', status: 'verified' as const },
+        { name: 'Logo File', status: 'verified' as const }
       ],
       payments: [
-        { amount: 7999, date: '2023-11-15', description: 'Initial Payment', status: 'paid' }
+        { amount: 7999, date: '2023-11-15', description: 'Initial Payment', status: 'paid' as const }
       ]
     },
     {
@@ -65,13 +65,13 @@ const UserDashboard = ({ userName = 'John Doe' }: UserDashboardProps) => {
       status: 'completed' as const,
       dateUpdated: '2023-10-05',
       documents: [
-        { name: 'Director ID Proof', status: 'verified' },
-        { name: 'Address Proof', status: 'verified' },
-        { name: 'NOC', status: 'verified' }
+        { name: 'Director ID Proof', status: 'verified' as const },
+        { name: 'Address Proof', status: 'verified' as const },
+        { name: 'NOC', status: 'verified' as const }
       ],
       payments: [
-        { amount: 8999, date: '2023-09-20', description: 'Initial Payment', status: 'paid' },
-        { amount: 2500, date: '2023-09-30', description: 'Government Fee', status: 'paid' }
+        { amount: 8999, date: '2023-09-20', description: 'Initial Payment', status: 'paid' as const },
+        { amount: 2500, date: '2023-09-30', description: 'Government Fee', status: 'paid' as const }
       ]
     }
   ];

@@ -14,19 +14,19 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 
-interface Document {
+export interface Document {
   name: string;
   status: 'verified' | 'pending' | 'missing';
 }
 
-interface Payment {
+export interface Payment {
   amount: number;
   date: string;
   description: string;
   status: 'paid' | 'pending';
 }
 
-interface Application {
+export interface Application {
   id: string;
   name: string;
   type: string;
