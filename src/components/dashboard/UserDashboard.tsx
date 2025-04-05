@@ -4,6 +4,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ApplicationCard from './ApplicationCard';
+import { Application, Document } from './ApplicationCard';
 
 interface UserDashboardProps {
   userName: string;
@@ -28,10 +29,10 @@ const UserDashboard = ({ userName, trademarkData }: UserDashboardProps) => {
       status: 'in_progress' as const, // Using as const to ensure it's the literal type
       dateUpdated: '2023-08-18',
       documents: [
-        { name: 'Proof of Identity', status: 'pending' },
-        { name: 'Proof of Business', status: 'pending' },
-        { name: 'Logo File (High Resolution)', status: 'missing' }
-      ],
+        { name: 'Proof of Identity', status: 'pending' as const },
+        { name: 'Proof of Business', status: 'pending' as const },
+        { name: 'Logo File (High Resolution)', status: 'missing' as const }
+      ] as Document[],
       payments: [
         { id: 'pay-1', amount: 7999, status: 'paid', date: '2023-08-15', description: 'Initial Payment' },
         { id: 'pay-2', amount: 4500, status: 'pending', date: '2023-09-15', description: 'Government Fee' }
@@ -50,10 +51,10 @@ const UserDashboard = ({ userName, trademarkData }: UserDashboardProps) => {
       status: 'pending' as const, // Using as const to ensure it's the literal type
       dateUpdated: new Date().toISOString().split('T')[0],
       documents: [
-        { name: 'Proof of Identity', status: 'missing' },
-        { name: 'Proof of Business', status: 'missing' },
-        { name: 'Logo File (High Resolution)', status: 'missing' }
-      ],
+        { name: 'Proof of Identity', status: 'missing' as const },
+        { name: 'Proof of Business', status: 'missing' as const },
+        { name: 'Logo File (High Resolution)', status: 'missing' as const }
+      ] as Document[],
       payments: [
         { 
           id: `pay-${Math.random().toString(36).substr(2, 9)}`, 
@@ -93,7 +94,7 @@ const UserDashboard = ({ userName, trademarkData }: UserDashboardProps) => {
         
         <TabsContent value="applications" className="space-y-4">
           {displayApplications.map((application) => (
-            <ApplicationCard key={application.id} application={application} />
+            <ApplicationCard key={application.id} application={application as Application} />
           ))}
         </TabsContent>
         
