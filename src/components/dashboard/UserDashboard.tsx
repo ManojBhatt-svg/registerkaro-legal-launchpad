@@ -136,7 +136,7 @@ const UserDashboard = ({ userName, trademarkData }: UserDashboardProps) => {
             </div>
             <div>
               <p className="text-sm text-blue-100">Completed</p>
-              <p className="text-xl font-bold">{displayApplications.filter(app => app.status === 'completed').length}</p>
+              <p className="text-xl font-bold">{displayApplications.filter(app => app.status === 'completed' as Application['status']).length}</p>
             </div>
           </div>
         </div>
