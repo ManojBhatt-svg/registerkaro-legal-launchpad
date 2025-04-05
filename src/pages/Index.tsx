@@ -9,19 +9,17 @@ import TestimonialsSection from '@/components/home/TestimonialsSection';
 import StatsSection from '@/components/home/StatsSection';
 import CTASection from '@/components/home/CTASection';
 import ChatAssistant from '@/components/chat/ChatAssistant';
-import Navigation from '@/components/layout/Navigation';
 
 const Index = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-grow">
-        <Navigation />
         <HeroSection />
         <FeaturesSection />
         <ServicesSection />
-        <TestimonialsSection />
         <StatsSection />
+        <TestimonialsSection />
         <CTASection />
       </main>
       <Footer />
