@@ -1,8 +1,9 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Check, Award } from 'lucide-react';
+import { ArrowLeft, Check, Award, Shield, Star, Zap } from 'lucide-react';
 import { toast } from 'sonner';
+import { motion } from 'framer-motion';
 
 interface PackageSelectionProps {
   trademarkName: string;
@@ -58,7 +59,9 @@ const PackageSelection = ({ trademarkName, onboardingData, onBack, onSelectPacka
         'Email Support'
       ],
       duration: '18-24 months',
-      recommended: false
+      recommended: false,
+      icon: Shield,
+      color: 'blue'
     },
     {
       name: 'Standard',
@@ -72,7 +75,9 @@ const PackageSelection = ({ trademarkName, onboardingData, onBack, onSelectPacka
         'Phone & Email Support'
       ],
       duration: '18-24 months',
-      recommended: true
+      recommended: true,
+      icon: Award,
+      color: 'orange'
     },
     {
       name: 'Premium',
@@ -86,95 +91,119 @@ const PackageSelection = ({ trademarkName, onboardingData, onBack, onSelectPacka
         '1 Year of Post-Registration Support'
       ],
       duration: '18-24 months',
-      recommended: false
+      recommended: false,
+      icon: Star,
+      color: 'purple'
     }
   ];
 
   return (
-    <div className="max-w-5xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
-      <div className="p-6 md:p-8">
-        <div className="flex justify-between items-center mb-8">
-          <h3 className="text-2xl font-bold text-gray-900">
-            Choose Your Package for "{trademarkName}"
-          </h3>
-        </div>
-        
-        <div className="mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {packages.map((pkg) => (
-              <div
-                key={pkg.name}
-                className={`rounded-lg overflow-hidden border-2 transition-all duration-300 hover:shadow-xl ${
-                  selectedPackage === pkg.name
-                    ? 'border-brand-orange shadow-lg'
-                    : pkg.recommended
-                    ? 'border-brand-orange border-opacity-50'
-                    : 'border-gray-200'
-                }`}
-              >
-                {pkg.recommended && (
-                  <div className="bg-brand-orange text-white text-center py-2 font-medium text-sm">
-                    RECOMMENDED
-                  </div>
-                )}
-                
-                <div className="p-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <h4 className="text-xl font-bold text-gray-900">{pkg.name}</h4>
-                      <p className="text-sm text-gray-500">{pkg.description}</p>
-                    </div>
-                    {pkg.recommended && (
-                      <Award className="h-6 w-6 text-brand-orange" />
-                    )}
-                  </div>
-                  
-                  <div className="mb-6">
-                    <p className="text-3xl font-bold text-gray-900">
-                      ₹{pkg.price.toLocaleString('en-IN')}
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      Est. duration: {pkg.duration}
-                    </p>
-                  </div>
-                  
-                  <div className="space-y-3 mb-6">
-                    {pkg.features.map((feature, index) => (
-                      <div key={index} className="flex items-start">
-                        <Check className="h-5 w-5 text-brand-orange flex-shrink-0 mr-2 mt-0.5" />
-                        <span className="text-sm text-gray-600">{feature}</span>
-                      </div>
-                    ))}
-                  </div>
-                  
-                  <Button
-                    onClick={() => handleSelectPackage(pkg.name)}
-                    className={`w-full ${
-                      pkg.recommended
-                        ? 'bg-brand-orange hover:bg-orange-600'
-                        : 'bg-brand-blue hover:bg-blue-700'
-                    }`}
-                  >
-                    Select Package
-                  </Button>
+    <div className="max-w-5xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+      <div className="bg-gradient-to-r from-brand-blue to-blue-600 text-white p-6 md:p-10">
+        <h2 className="text-3xl font-bold mb-2">Choose Your Package</h2>
+        <p className="text-blue-100 text-lg">
+          Select the best protection plan for "{trademarkName}"
+        </p>
+      </div>
+      
+      <div className="p-6 md:p-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-10">
+          {packages.map((pkg, index) => (
+            <motion.div
+              key={pkg.name}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: index * 0.1 }}
+              className={`relative rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl ${
+                selectedPackage === pkg.name
+                  ? 'ring-2 ring-brand-orange ring-offset-2'
+                  : 'border border-gray-200'
+              }`}
+            >
+              {pkg.recommended && (
+                <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-amber-500 to-brand-orange text-white text-center py-2 font-semibold text-sm">
+                  MOST POPULAR
                 </div>
+              )}
+              
+              <div className={`p-6 ${pkg.recommended ? 'pt-12' : 'pt-6'}`}>
+                <div className="flex items-center justify-between mb-4">
+                  <div className={`h-12 w-12 rounded-full flex items-center justify-center ${
+                    pkg.color === 'blue' ? 'bg-blue-100 text-brand-blue' : 
+                    pkg.color === 'orange' ? 'bg-orange-100 text-brand-orange' :
+                    'bg-purple-100 text-purple-600'
+                  }`}>
+                    {pkg.icon && <pkg.icon className="h-6 w-6" />}
+                  </div>
+                  {pkg.recommended && (
+                    <div className="bg-orange-100 text-brand-orange text-xs font-semibold py-1 px-2 rounded-full">
+                      Recommended
+                    </div>
+                  )}
+                </div>
+                
+                <h3 className={`text-2xl font-bold ${
+                  pkg.color === 'orange' ? 'text-brand-orange' : 
+                  pkg.color === 'purple' ? 'text-purple-600' :
+                  'text-brand-blue'
+                }`}>
+                  {pkg.name}
+                </h3>
+                <p className="text-gray-500 mb-3">{pkg.description}</p>
+                  
+                <div className="mb-6">
+                  <p className="text-3xl font-bold text-gray-900">
+                    ₹{pkg.price.toLocaleString('en-IN')}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    Est. duration: {pkg.duration}
+                  </p>
+                </div>
+                
+                <div className="space-y-3 mb-8">
+                  {pkg.features.map((feature, index) => (
+                    <div key={index} className="flex items-start">
+                      <Check className={`h-5 w-5 flex-shrink-0 mr-2 mt-0.5 ${
+                        pkg.color === 'blue' ? 'text-brand-blue' : 
+                        pkg.color === 'orange' ? 'text-brand-orange' :
+                        'text-purple-600'
+                      }`} />
+                      <span className="text-sm text-gray-600">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+                
+                <Button
+                  onClick={() => handleSelectPackage(pkg.name)}
+                  className={`w-full ${
+                    pkg.color === 'blue' ? 'bg-brand-blue hover:bg-blue-700' : 
+                    pkg.color === 'orange' ? 'bg-brand-orange hover:bg-orange-600' :
+                    'bg-purple-600 hover:bg-purple-700'
+                  } transition-all duration-300`}
+                  size="lg"
+                >
+                  Select {pkg.name} Package
+                </Button>
               </div>
-            ))}
-          </div>
+            </motion.div>
+          ))}
         </div>
         
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col md:flex-row items-center justify-between pt-6 border-t border-gray-200">
           <Button 
             variant="outline"
             onClick={onBack}
-            className="flex items-center"
+            className="mb-4 md:mb-0 flex items-center"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Questions
           </Button>
           
-          <div className="text-sm text-gray-500">
-            <p>Need help choosing? <a href="#" className="text-brand-blue hover:underline">Talk to our expert</a></p>
+          <div className="flex items-center bg-blue-50 p-4 rounded-lg">
+            <Zap className="text-brand-blue h-5 w-5 mr-2" />
+            <p className="text-sm text-gray-700">
+              Need help choosing? <a href="#" className="text-brand-blue font-medium hover:underline">Chat with our trademark expert</a>
+            </p>
           </div>
         </div>
       </div>
