@@ -8,7 +8,7 @@ import PackageSelection from '@/components/trademark/PackageSelection';
 import PaymentPage from '@/components/trademark/PaymentPage';
 import UserDashboard from '@/components/dashboard/UserDashboard';
 import ChatAssistant from '@/components/chat/ChatAssistant';
-import { ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 type RegistrationStep = 'checker' | 'onboarding' | 'packages' | 'payment' | 'dashboard';
