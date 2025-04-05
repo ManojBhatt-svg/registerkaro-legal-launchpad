@@ -17,7 +17,43 @@ const TrademarkChecker = ({ onCheckComplete }: TrademarkCheckerProps) => {
     checked: false 
   });
   
-  const handleCheck = () => {
+  const checkTrademarkApi = async (companyName: string) => {
+    const apiUrl = 'http://localhost:5000/api/check-trademark';
+    const requestBody = {
+      company_name: companyName,
+      async: false,
+    };
+    
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      });
+      
+      if (!response.ok) {
+        let errorData;
+        try {
+          errorData = await response.json();
+        } catch (parseError) {
+          console.error('Failed to parse error response:', parseError);
+        }
+        throw new Error(
+          `HTTP error! Status: ${response.status}. ${errorData?.error || ''}`.trim()
+        );
+      }
+      
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('API Request Failed:', error);
+      throw error;
+    }
+  };
+  
+  const handleCheck = async () => {
     if (!trademarkName.trim()) {
       toast.error('Please enter a trademark name');
       return;
@@ -25,11 +61,12 @@ const TrademarkChecker = ({ onCheckComplete }: TrademarkCheckerProps) => {
     
     setIsChecking(true);
     
-    // Simulate API request with a timeout
-    setTimeout(() => {
-      // In a real app, this would be an API call to check trademark availability
-      // For demo purposes, we're using a simple random result
-      const isAvailable = Math.random() > 0.3;
+    try {
+      const apiResponse = await checkTrademarkApi(trademarkName);
+      
+      // Assuming the API returns a structure with an 'available' property
+      // Adjust according to your actual API response structure
+      const isAvailable = apiResponse.available || false;
       
       setResult({ 
         available: isAvailable, 
@@ -37,8 +74,25 @@ const TrademarkChecker = ({ onCheckComplete }: TrademarkCheckerProps) => {
       });
       
       onCheckComplete({ available: isAvailable, name: trademarkName });
+      
+      // Show appropriate toast based on result
+      if (isAvailable) {
+        toast.success(`"${trademarkName}" appears to be available for registration.`);
+      } else {
+        toast.warning(`Potential conflicts found for "${trademarkName}".`);
+      }
+    } catch (error) {
+      console.error('Trademark check failed:', error);
+      toast.error(`Failed to check trademark: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      
+      // Set result as not available in case of error
+      setResult({ 
+        available: false, 
+        checked: true 
+      });
+    } finally {
       setIsChecking(false);
-    }, 2000);
+    }
   };
   
   const handleKeyDown = (e: React.KeyboardEvent) => {
