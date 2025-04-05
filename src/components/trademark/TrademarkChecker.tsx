@@ -18,7 +18,7 @@ const TrademarkChecker = ({ onCheckComplete }: TrademarkCheckerProps) => {
   });
   
   const checkTrademarkApi = async (companyName: string) => {
-    const apiUrl = 'http://localhost:5000/api/check-trademark';
+    const apiUrl = 'http://192.168.21.34:5000/api/check-trademark';
     const requestBody = {
       company_name: companyName,
       async: false,
