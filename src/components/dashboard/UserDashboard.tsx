@@ -19,30 +19,22 @@ interface UserDashboardProps {
 const UserDashboard = ({ userName, trademarkData }: UserDashboardProps) => {
   const [activeTab, setActiveTab] = useState('applications');
   
-  // Mock data for user applications
+  // Mock data for user applications - updated to match the Application interface
   const applications = [
     {
       id: 'tm-1',
       name: trademarkData?.name || 'Brand Name',
       type: 'Trademark Registration',
-      status: 'In Progress',
-      dateSubmitted: '2023-08-15',
-      packageType: trademarkData?.selectedPackage || 'Standard',
-      documentsRequired: [
-        { name: 'Proof of Identity', status: 'Verified' },
-        { name: 'Proof of Business', status: 'Pending' },
-        { name: 'Logo File (High Resolution)', status: 'Not Uploaded' }
-      ],
-      timeline: [
-        { date: '2023-08-15', event: 'Application Submitted', status: 'Completed' },
-        { date: '2023-08-18', event: 'Document Verification', status: 'In Progress' },
-        { date: '2023-09-01', event: 'Filing with Registry', status: 'Pending' },
-        { date: '2023-10-15', event: 'Examination', status: 'Pending' },
-        { date: '2023-12-01', event: 'Publication', status: 'Pending' }
+      status: 'in_progress', // Changed to match the expected enum values
+      dateUpdated: '2023-08-18', // Added required dateUpdated property
+      documents: [ // Added required documents property
+        { name: 'Proof of Identity', status: 'pending' },
+        { name: 'Proof of Business', status: 'pending' },
+        { name: 'Logo File (High Resolution)', status: 'missing' }
       ],
       payments: [
-        { id: 'pay-1', amount: '7999', status: 'Paid', date: '2023-08-15', description: 'Initial Payment' },
-        { id: 'pay-2', amount: '4500', status: 'Pending', date: '2023-09-15', description: 'Government Fee' }
+        { id: 'pay-1', amount: 7999, status: 'paid', date: '2023-08-15', description: 'Initial Payment' },
+        { id: 'pay-2', amount: 4500, status: 'pending', date: '2023-09-15', description: 'Government Fee' }
       ]
     }
   ];
@@ -55,34 +47,26 @@ const UserDashboard = ({ userName, trademarkData }: UserDashboardProps) => {
       id: `tm-${Math.random().toString(36).substr(2, 9)}`,
       name: trademarkData.name,
       type: 'Trademark Registration',
-      status: 'New Application',
-      dateSubmitted: new Date().toISOString().split('T')[0],
-      packageType: trademarkData.selectedPackage,
-      documentsRequired: [
-        { name: 'Proof of Identity', status: 'Not Uploaded' },
-        { name: 'Proof of Business', status: 'Not Uploaded' },
-        { name: 'Logo File (High Resolution)', status: 'Not Uploaded' }
-      ],
-      timeline: [
-        { date: new Date().toISOString().split('T')[0], event: 'Application Submitted', status: 'Completed' },
-        { date: '', event: 'Document Verification', status: 'Pending' },
-        { date: '', event: 'Filing with Registry', status: 'Pending' },
-        { date: '', event: 'Examination', status: 'Pending' },
-        { date: '', event: 'Publication', status: 'Pending' }
+      status: 'pending', // Changed to match the expected enum values
+      dateUpdated: new Date().toISOString().split('T')[0], // Added required dateUpdated property
+      documents: [ // Added required documents property
+        { name: 'Proof of Identity', status: 'missing' },
+        { name: 'Proof of Business', status: 'missing' },
+        { name: 'Logo File (High Resolution)', status: 'missing' }
       ],
       payments: [
         { 
           id: `pay-${Math.random().toString(36).substr(2, 9)}`, 
-          amount: trademarkData.selectedPackage === 'Premium' ? '19999' : 
-                 trademarkData.selectedPackage === 'Standard' ? '12999' : '7999', 
-          status: 'Paid', 
+          amount: trademarkData.selectedPackage === 'Premium' ? 19999 : 
+                  trademarkData.selectedPackage === 'Standard' ? 12999 : 7999, 
+          status: 'paid', 
           date: new Date().toISOString().split('T')[0], 
           description: 'Initial Payment' 
         },
         { 
           id: `pay-${Math.random().toString(36).substr(2, 9)}`, 
-          amount: '4500', 
-          status: 'Pending', 
+          amount: 4500, 
+          status: 'pending', 
           date: '', 
           description: 'Government Fee' 
         }
@@ -133,7 +117,9 @@ const UserDashboard = ({ userName, trademarkData }: UserDashboardProps) => {
                     </div>
                     <div className="text-right">
                       <p className="font-bold">₹ {payment.amount}</p>
-                      <p className={`text-sm ${payment.status === 'Paid' ? 'text-green-600' : 'text-amber-600'}`}>{payment.status}</p>
+                      <p className={`text-sm ${payment.status === 'paid' ? 'text-green-600' : 'text-amber-600'}`}>
+                        {payment.status === 'paid' ? 'Paid' : 'Pending'}
+                      </p>
                     </div>
                   </div>
                 ))
