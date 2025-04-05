@@ -1,10 +1,9 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
-import { ArrowLeft, CreditCard, CheckCircle, Plus, Lock, Calendar, CreditCardIcon, BankIcon, Banknote } from 'lucide-react';
+import { ArrowLeft, CreditCard, CheckCircle, Plus, Lock, Calendar, CreditCardIcon, Building, Banknote } from 'lucide-react';
 import { toast } from 'sonner';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { motion } from 'framer-motion';
@@ -108,7 +107,6 @@ const PaymentPage = ({ packageName, trademarkName, onBack, onComplete }: Payment
         </CardHeader>
         
         <CardContent className="p-0">
-          {/* Progress */}
           <div className="px-8 pt-8 pb-4">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium text-gray-700">
@@ -128,9 +126,7 @@ const PaymentPage = ({ packageName, trademarkName, onBack, onComplete }: Payment
           
           <div className="p-8">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Left Side - Payment Forms */}
               <div className="lg:col-span-2 space-y-8">
-                {/* Order Summary */}
                 <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">Order Summary</h3>
                   <div className="space-y-3">
@@ -159,7 +155,6 @@ const PaymentPage = ({ packageName, trademarkName, onBack, onComplete }: Payment
                   </div>
                 </div>
                 
-                {/* Add-on Services */}
                 <div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-4">Add-on Services</h3>
                   <div className="space-y-4">
@@ -213,12 +208,10 @@ const PaymentPage = ({ packageName, trademarkName, onBack, onComplete }: Payment
                   </div>
                 </div>
                 
-                {/* Payment Methods */}
                 <div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-4">Payment Method</h3>
                   
                   <div className="space-y-4">
-                    {/* Credit Card */}
                     <div
                       className={`border rounded-xl p-5 cursor-pointer transition-all ${
                         paymentMethod === 'card'
@@ -294,7 +287,6 @@ const PaymentPage = ({ packageName, trademarkName, onBack, onComplete }: Payment
                       )}
                     </div>
                     
-                    {/* UPI */}
                     <div
                       className={`border rounded-xl p-5 cursor-pointer transition-all ${
                         paymentMethod === 'upi'
@@ -332,7 +324,6 @@ const PaymentPage = ({ packageName, trademarkName, onBack, onComplete }: Payment
                       )}
                     </div>
                     
-                    {/* Netbanking */}
                     <div
                       className={`border rounded-xl p-5 cursor-pointer transition-all ${
                         paymentMethod === 'netbanking'
@@ -353,7 +344,7 @@ const PaymentPage = ({ packageName, trademarkName, onBack, onComplete }: Payment
                           )}
                         </div>
                         <div className="ml-3 flex items-center">
-                          <BankIcon className="h-5 w-5 text-gray-500 mr-2" />
+                          <Building className="h-5 w-5 text-gray-500 mr-2" />
                           <span className="font-medium">Net Banking</span>
                         </div>
                       </div>
@@ -376,7 +367,6 @@ const PaymentPage = ({ packageName, trademarkName, onBack, onComplete }: Payment
                 </div>
               </div>
               
-              {/* Right Side - Order Summary */}
               <div>
                 <div className="bg-gray-50 rounded-xl p-6 sticky top-6 border border-gray-100">
                   <h4 className="text-xl font-semibold text-gray-900 mb-6">Order Summary</h4>
@@ -396,7 +386,6 @@ const PaymentPage = ({ packageName, trademarkName, onBack, onComplete }: Payment
                     </div>
                   </div>
                   
-                  {/* Promo Code */}
                   <div className="mb-6">
                     <Label htmlFor="promoCode" className="text-sm">Promo Code</Label>
                     <div className="flex mt-1 gap-2">
