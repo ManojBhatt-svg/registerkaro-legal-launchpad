@@ -48,7 +48,8 @@ const UserDashboard = ({ userName, trademarkData }: UserDashboardProps) => {
       id: `tm-${Math.random().toString(36).substr(2, 9)}`,
       name: trademarkData.name,
       type: 'Trademark Registration',
-      status: 'pending' as const, // Using as const to ensure it's the literal type
+      // Change from 'pending' to 'in_progress' to match the expected type
+      status: 'in_progress' as const, 
       dateUpdated: new Date().toISOString().split('T')[0],
       documents: [
         { name: 'Proof of Identity', status: 'missing' as const },
